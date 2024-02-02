@@ -1,3 +1,7 @@
 export default function Header() {
-  return <> This is the header </>;
+  return (
+    <>
+      <div className="text-center">This is the header</div>
+    </>
+  );
 }
