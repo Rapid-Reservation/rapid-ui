@@ -1,45 +1,67 @@
 .table {
-    border: 2px solid #408f41;
-    background: #eee;
-    border-radius: 5px;
-    display: inline-grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    grid-auto-rows: min-content;
-    box-shadow: #a8bac1 0px 0px 8px;
-    color: #eee;
-    margin: 50px;
+  border: 2px solid;
+  background: #eee;
+  border-radius: 5px;
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  grid-auto-rows: min-content;
+  box-shadow: #a8bac1 0px 0px 8px;
+  color: #eee;
+  margin: 50px;
+  max-width: 250px;
+}
+
+.table:hover {
+  border: 2px solid #999;
+}
+
+.tDisplay {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 50px;
+  min-height: 50px;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.cDisplay {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 2px;
+  overflow: hidden;
+  font-size: 2.5rem;
+}
+
+.statusButton {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+  padding: 2px;
+  overflow: hidden;
+  border: none;
+  color: #eee;
+}
+
+.tableAvailable {
+  border-color: #408f41;
+
+  .tDisplay, .cDisplay {
+    background-color: #55b557;
   }
-  
-  .table:hover {
-    border: 2px solid #999;
-  }
-  
-  .tDisplay {
-    background: #55b557;
-    grid-column: 1;
-    grid-row: 1;
-    min-width: 50px;
-    min-height: 50px;
-    padding: 2px;
-    overflow: hidden;
-  }
-  
-  .cDisplay {
-    background: #55b557;
-    grid-column: 2;
-    grid-row: 1;
-    padding: 2px;
-    overflow: hidden;
-    font-size: 3rem;
-  }
-  
+
   .statusButton {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    background: #459d46;
-    padding: 2px;
-    overflow: hidden;
-    border: none;
-    color: #eee;
+    background-color: #459d46;
   }
+}
+
+.tableNotAvailable {
+  border-color: #8f4040;
+  
+  .tDisplay, .cDisplay {
+    background-color: #b55555;
+  }
+
+  .statusButton {
+    background-color: #9d4545;
+  }
+}
