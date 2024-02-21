@@ -2,46 +2,39 @@ import React, { useState, useEffect } from "react";
 import Table from "./table";
 
 export default function Floor() {
+  // Array that will hold our TableData returned by API
   const [tables, setTables] = useState<TableData[]>([]);
 
-
-  // Here, we use a useEffect hook to fetch data from API. We then store the respone in an array of type TableData
-
+  // Use UseEffect hook to call asynchronus function fetchTableData. Hits get table endpoint
   useEffect(() => {
     async function fetchTableData() {
       try {
         const res = await fetch("http://127.0.0.1:5000/table");
         if (!res.ok) {
-          throw new Error("Failed to fetch data");
+          throw new Error("Failed to fetch data"); //throw and error if we do not get an "OK" response
         }
 
+        // takes returned data and adds to an array of TableData , then set
         const data: TableData[] = await res.json();
-        setTables(data);
+        setTables(data); // use the useState hook to set value of stateful variable `tables` with the values from returned `data`
       } catch (error) {
-        console.error("Error fetching table data:", error);
+        console.error("Error fetching table data:", error); //throw an error if we dont get table back
       }
     }
 
     fetchTableData();
-  }, []);
+  }, []); // empty depenency array, might update to possibly trigger re render on a determined statechange? talk to will about
 
   return (
     <div>
       {tables.map(
         (
           table,
-          index //Here we map over the array of TableData and map each tables value to the data.value per map loop.
+          index //map over the contents of the tables stateful variable, create a Table component per index in Tables
         ) => (
-          <Table
-            key={index}
-            table_id={table.table_id}
-            table_available={table.table_available}
-            max_customer={table.max_customer}
-            order_id={table.order_id}
-          />
+          <Table key={index} data={table} />
         )
       )}
-
     </div>
   );
 }
