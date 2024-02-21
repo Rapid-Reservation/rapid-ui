@@ -4,6 +4,10 @@
 // export default function Table({id, isReserved, partyName, numSeats, order, onTableClick}: tableProps) {
 //   // A small collection of elements which show the status and information about a given table.
 //   // additionally, provides function to update current table status.
+// console.log("Data:", data);
+//   console.log("id:", data.table_id);
+//   console.log("numSeats:", data.max_customer);
+//   console.log("available?:", data.table_available);
 
 //   const availability = isReserved ? styles.tableNotAvailable : styles.tableAvailable;
 //     return (
@@ -15,40 +19,47 @@
 //     );
 //   }
 
-
 import { useState } from "react";
 import styles from "./table.module.css";
-import Image from "next/image";
 
-
-export default function Table(data: TableData) {
+export default function Table({ data }: { data: TableData }) {
+  // takes a parameter of data, of type TableData, which we define in table-interface
   const [available, setAvailable] = useState<boolean>(data.table_available);
-  console.log("Data:", data);
-  console.log("id:", data.table_id);
-  console.log("numSeats:", data.max_customer);
-  console.log("available?:", data.table_available);
 
-  const availability = data.table_available
+  const availabilityStyle = available
     ? styles.tableAvailable
     : styles.tableNotAvailable;
 
-  const handleClick = () => {
-    setAvailable((prevAvailable) => !prevAvailable);
+  const handleClick = async () => {
+    try {
+      // Toggle the local state
+      setAvailable((prevAvailable) => !prevAvailable);
+
+      // Determine the endpoint based on the current availability
+      const endpoint = available
+        ? `http://127.0.0.1:5000/table/set/${data.table_id}`
+        : `http://127.0.0.1:5000/table/clear/${data.table_id}`;
+
+      // Send a POST request to the determined endpoint to update the availability state
+      await fetch(endpoint, {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Error updating table availability:", error);
+    }
   };
 
   return (
     <div
-      className={[styles.table, availability].join(" ")}
+      className={[styles.table, availabilityStyle].join(" ")}
       onClick={handleClick}
     >
       <div className={styles.tDisplay}>
-
-        <Image src="/final_table.png" alt="Table" />
-
+        <img src="/final_table.png" alt="Table" />
       </div>
       <div className={styles.cDisplay}>🪑 x{data.max_customer}</div>
       <button className={styles.statusButton}>
-        {available ? "Reserved" : "Open"}
+        {available ? `${data.table_id} - Open` : `${data.table_id} - Reserved`}
       </button>
     </div>
   );
