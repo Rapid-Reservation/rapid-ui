@@ -15,45 +15,11 @@
 //     );
 //   }
 
-// import { useState } from "react";
-// import styles from "./table.module.css";
-
-// export default function Table(data: TableData) {
-//   console.log("id:", data.table_id);
-//   console.log("numSeats:", data.max_customer);
-//   console.log("isReserved?:", data.table_avaliable);
-//   const [isReserved, setReserved] = useState<boolean>(data.table_avaliable);
-
-//   const availability = isReserved
-//     ? styles.tableNotAvailable
-//     : styles.tableAvailable;
-
-//   const handleClick = () => {
-//     // Toggle the reservation state
-//     setReserved((prevReserved) => !prevReserved);
-
-//     // Execute the provided click handler
-//     // onTableClick();
-//   };
-
-//   return (
-//     <div
-//       className={[styles.table, availability].join(" ")}
-//       onClick={handleClick}
-//     >
-//       <div className={styles.tDisplay}>
-//         <img src="/final_table.png" alt="Table" />
-//       </div>
-//       <div className={styles.cDisplay}>🪑 x{data.max_customer}</div>
-//       <button className={styles.statusButton}>
-//         {isReserved ? "Reserved" : "Open"}
-//       </button>
-//     </div>
-//   );
-// }
 
 import { useState } from "react";
 import styles from "./table.module.css";
+import Image from "next/image";
+
 
 export default function Table(data: TableData) {
   const [available, setAvailable] = useState<boolean>(data.table_available);
@@ -76,7 +42,9 @@ export default function Table(data: TableData) {
       onClick={handleClick}
     >
       <div className={styles.tDisplay}>
-        <img src="/final_table.png" alt="Table" />
+
+        <Image src="/final_table.png" alt="Table" />
+
       </div>
       <div className={styles.cDisplay}>🪑 x{data.max_customer}</div>
       <button className={styles.statusButton}>
