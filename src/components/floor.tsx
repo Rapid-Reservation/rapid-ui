@@ -4,6 +4,7 @@ import Table from "./table";
 export default function Floor() {
   const [tables, setTables] = useState<TableData[]>([]);
 
+  // Here, we use a useEffect hook to fetch data from API. We then store the respone in an array of type TableData
   useEffect(() => {
     async function fetchTableData() {
       try {
@@ -24,15 +25,20 @@ export default function Floor() {
 
   return (
     <div>
-      {tables.map((table, index) => (
-        <Table
-          key={index}
-          table_id={table.table_id} // Use table_id instead of table_num
-          table_available={table.table_available} // Use table_available instead of reserved
-          max_customer={table.max_customer} // Use max_customer instead of max_seating
-          order_id={table.order_id} // Use order_id instead of order_number
-        />
-      ))}
+      {tables.map(
+        (
+          table,
+          index //Here we map over the array of TableData and map each tables value to the data.value per map loop.
+        ) => (
+          <Table
+            key={index}
+            table_id={table.table_id}
+            table_available={table.table_available}
+            max_customer={table.max_customer}
+            order_id={table.order_id}
+          />
+        )
+      )}
     </div>
   );
 }
