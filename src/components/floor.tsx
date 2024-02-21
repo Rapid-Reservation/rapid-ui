@@ -4,7 +4,9 @@ import Table from "./table";
 export default function Floor() {
   const [tables, setTables] = useState<TableData[]>([]);
 
+
   // Here, we use a useEffect hook to fetch data from API. We then store the respone in an array of type TableData
+
   useEffect(() => {
     async function fetchTableData() {
       try {
@@ -39,6 +41,7 @@ export default function Floor() {
           />
         )
       )}
+
     </div>
   );
 }

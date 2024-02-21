@@ -11,5 +11,5 @@ export default function Home() {
       {/* <TableTester numTables={10} /> */}
       <Floor />
     </>
-  ); // currently demonstrating Table component
+  ); /
 }

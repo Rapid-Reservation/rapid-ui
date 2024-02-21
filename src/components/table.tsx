@@ -15,9 +15,11 @@
 //     );
 //   }
 
+
 import { useState } from "react";
 import styles from "./table.module.css";
 import Image from "next/image";
+
 
 export default function Table(data: TableData) {
   const [available, setAvailable] = useState<boolean>(data.table_available);
@@ -40,7 +42,9 @@ export default function Table(data: TableData) {
       onClick={handleClick}
     >
       <div className={styles.tDisplay}>
+
         <Image src="/final_table.png" alt="Table" />
+
       </div>
       <div className={styles.cDisplay}>🪑 x{data.max_customer}</div>
       <button className={styles.statusButton}>
