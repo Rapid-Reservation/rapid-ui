@@ -22,44 +22,24 @@
 import { useState } from "react";
 import styles from "./table.module.css";
 
-export default function Table({ data }: { data: TableData }) {
+export default function Table({ index, data, handleClick }: { index: number, data: TableData, handleClick: Function }) {
   // takes a parameter of data, of type TableData, which we define in table-interface
-  const [available, setAvailable] = useState<boolean>(data.table_available);
 
-  const availabilityStyle = available
+  const availabilityStyle = data.table_available
     ? styles.tableAvailable
     : styles.tableNotAvailable;
-
-  const handleClick = async () => {
-    try {
-      // Toggle the local state
-      setAvailable((prevAvailable) => !prevAvailable);
-
-      // Determine the endpoint based on the current availability
-      const endpoint = available
-        ? `http://127.0.0.1:5000/table/set/${data.table_id}`
-        : `http://127.0.0.1:5000/table/clear/${data.table_id}`;
-
-      // Send a POST request to the determined endpoint to update the availability state
-      await fetch(endpoint, {
-        method: "POST",
-      });
-    } catch (error) {
-      console.error("Error updating table availability:", error);
-    }
-  };
 
   return (
     <div
       className={[styles.table, availabilityStyle].join(" ")}
-      onClick={handleClick}
+      onClick={() => {handleClick(index)}}
     >
       <div className={styles.tDisplay}>
         <img src="/final_table.png" alt="Table" />
       </div>
       <div className={styles.cDisplay}>🪑 x{data.max_customer}</div>
       <button className={styles.statusButton}>
-        {available ? `${data.table_id} - Open` : `${data.table_id} - Reserved`}
+        {data.table_available ? `${data.table_id} - Open` : `${data.table_id} - Reserved`}
       </button>
     </div>
   );
