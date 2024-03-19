@@ -26,6 +26,8 @@ export default function Table({ data }: { data: TableData }) {
   // takes a parameter of data, of type TableData, which we define in table-interface
   const [available, setAvailable] = useState<boolean>(data.table_available);
 
+  const url = "https://rapid-api-rho.vercel.app/";
+
   const availabilityStyle = available
     ? styles.tableAvailable
     : styles.tableNotAvailable;
@@ -37,8 +39,8 @@ export default function Table({ data }: { data: TableData }) {
 
       // Determine the endpoint based on the current availability
       const endpoint = available
-        ? `http://127.0.0.1:5000/table/set/${data.table_id}`
-        : `http://127.0.0.1:5000/table/clear/${data.table_id}`;
+        ? `${url}table/set/${data.table_id}`
+        : `${url}table/clear/${data.table_id}`;
 
       // Send a POST request to the determined endpoint to update the availability state
       await fetch(endpoint, {
