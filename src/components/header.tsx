@@ -39,14 +39,28 @@ export default function Header() {
               Home
             </Link>
             <Link
-              href="#responsive-header"
+              href="/menu"
               className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
             >
               Menu
             </Link>
           </div>
           <div>
-            <a
+            <Link
+              href="/menu"
+              className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
+            >
+              <Image
+                className="rounded-full"
+                src="/checkout.png"
+                width={40}
+                height={40}
+                alt="View your checkout cart"
+              />
+            </Link>
+          </div>
+          <div>
+            <Link
               href="https://github.com/Rapid-Reservation"
               className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
             >
@@ -57,7 +71,7 @@ export default function Header() {
                 height={40}
                 alt="Link to Rapid Reservation GitHub org"
               />
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
