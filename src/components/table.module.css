@@ -45,7 +45,8 @@
 .tableAvailable {
   border-color: #408f41;
 
-  .tDisplay, .cDisplay {
+  .tDisplay,
+  .cDisplay {
     background-color: #55b557;
   }
 
@@ -56,8 +57,9 @@
 
 .tableNotAvailable {
   border-color: #8f4040;
-  
-  .tDisplay, .cDisplay {
+
+  .tDisplay,
+  .cDisplay {
     background-color: #b55555;
   }
 
