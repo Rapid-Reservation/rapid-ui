@@ -144,7 +144,8 @@ export default function Table({ data }: { data: TableData }) {
             Add your menu items here.
           </Typography>
           <Button
-            onClick={(e) => handleClosePopover(e)}
+            onClick={(e) => handleCloseModal()}
+
             variant="contained"
             sx={{ m: 2 }}
           >
