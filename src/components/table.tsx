@@ -145,6 +145,7 @@ export default function Table({ data }: { data: TableData }) {
           </Typography>
           <Button
             onClick={(e) => handleCloseModal()}
+
             variant="contained"
             sx={{ m: 2 }}
           >
