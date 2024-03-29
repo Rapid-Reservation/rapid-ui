@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Button, Popover, Typography, Modal, Box } from "@mui/material"; // Import Popover, Typography, Modal, and Box from Material-UI
 import styles from "./table.module.css";
+import Menu from "@/components/menu";
 
 export default function Table({ data }: { data: TableData }) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null); // State to manage the anchor element for Popover
   const [openPopover, setOpenPopover] = useState<boolean>(false); // State to manage the visibility of the Popover
   const [openModal, setOpenModal] = useState<boolean>(false); // State to manage the visibility of the Modal
   const [available, setAvailable] = useState<boolean>(data.table_available);
-  const url = "https://rapid-api-rho.vercel.app";
+  //const url = "https://rapid-api-rho.vercel.app";
+  const url = "http://127.0.0.1:8000";
   const availabilityStyle = available
     ? styles.tableAvailable
     : styles.tableNotAvailable;
@@ -143,9 +145,10 @@ export default function Table({ data }: { data: TableData }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Add your menu items here.
           </Typography>
-          <Button
-            onClick={(e) => handleCloseModal()}
+          <Menu />
 
+          <Button
+            onClick={() => handleCloseModal()}
             variant="contained"
             sx={{ m: 2 }}
           >

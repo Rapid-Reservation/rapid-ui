@@ -33,10 +33,22 @@ export default function Header() {
         <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
           <div className="text-sm lg:flex-grow">
             <Link
-              href="/"
+              href="/reserve"
               className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
             >
               Home
+            </Link>
+            <Link
+              href="/reserve"
+              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+            >
+              Reservations
+            </Link>
+            <Link
+              href="/login"
+              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+            >
+              Login
             </Link>
             <Link
               href="/menu"
@@ -52,7 +64,7 @@ export default function Header() {
             >
               <Image
                 className="rounded-full"
-                src="/checkout.png"
+                src="/checkout-cart-icon-16.png"
                 width={40}
                 height={40}
                 alt="View your checkout cart"
