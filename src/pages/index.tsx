@@ -1,10 +1,9 @@
 import Header from "@/components/header";
 import Floor from "@/components/floor";
 
-export default function Home() {
+export default function Index() {
   return (
     <>
-      <Header />
       <Floor />
     </>
   );

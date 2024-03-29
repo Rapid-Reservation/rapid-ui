@@ -1,7 +1,8 @@
 import Header from "@/components/header";
 import Floor from "@/components/floor";
 import LoginForm from "@/components/loginform";
-export default function Home() {
+import { AuthProvider } from "@/context/authContext";
+export default function Login() {
   let users = new Map();
   users.set("admin", "pass");
 

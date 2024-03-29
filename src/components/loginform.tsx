@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { useAuth } from "@/context/authContext";
 
 export default function LoginForm({
   usersDb,
@@ -8,6 +9,7 @@ export default function LoginForm({
 }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { isLoggedIn, login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -21,10 +23,13 @@ export default function LoginForm({
     );
 
     if (usersDb.get(username) === password) {
+      login();
       console.log("You are now logged in, redirecting to menu component");
+      console.log(isLoggedIn);
       router.push("/reserve");
     } else {
       console.log("That is not correct");
+      console.log(isLoggedIn);
     }
   };
 
