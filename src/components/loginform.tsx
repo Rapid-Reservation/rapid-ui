@@ -14,7 +14,7 @@ export default function LoginForm({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic here, e.g., sending data to server
+
     console.log(
       "Form submitted with username:",
       username,
@@ -22,14 +22,15 @@ export default function LoginForm({
       password
     );
 
+    // Check if username and password match
     if (usersDb.get(username) === password) {
+      // Call login function to update authentication state
       login();
-      console.log("You are now logged in, redirecting to menu component");
-      console.log(isLoggedIn);
+
+      // Redirect user to "/reserve" after successful login
       router.push("/reserve");
     } else {
-      console.log("That is not correct");
-      console.log(isLoggedIn);
+      console.log("Incorrect username or password");
     }
   };
 

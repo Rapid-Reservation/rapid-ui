@@ -1,5 +1,3 @@
-import Header from "@/components/header";
-import Floor from "@/components/floor";
 import LoginForm from "@/components/loginform";
 import { AuthProvider } from "@/context/authContext";
 export default function Login() {

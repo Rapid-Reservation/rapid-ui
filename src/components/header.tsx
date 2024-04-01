@@ -1,8 +1,11 @@
-import Head from "next/head";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "@/context/authContext";
 
 export default function Header() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       <nav className="flex flex-wrap items-center justify-between bg-gray-700 p-1">
@@ -32,59 +35,72 @@ export default function Header() {
         </div>
         <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
           <div className="text-sm lg:flex-grow">
-            <Link
-              href="/reserve"
-              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-            >
-              Home
-            </Link>
-            <Link
-              href="/reserve"
-              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-            >
-              Reservations
-            </Link>
-            <Link
-              href="/login"
-              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-            >
-              Login
-            </Link>
-            <Link
-              href="/menu"
-              className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-            >
-              Menu
-            </Link>
+            {!isLoggedIn && (
+              <Link
+                href="/login"
+                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+              >
+                Home
+              </Link>
+            )}
+            {isLoggedIn && (
+              <>
+                <Link
+                  href="/reserve"
+                  className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+                >
+                  Reservations
+                </Link>
+                <Link
+                  href="/menu"
+                  className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+                >
+                  Menu
+                </Link>
+              </>
+            )}
+            {!isLoggedIn && (
+              <Link
+                href="/login"
+                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+              >
+                Login
+              </Link>
+            )}
           </div>
-          <div>
-            <Link
-              href="/menu"
-              className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
-            >
-              <Image
-                className="rounded-full"
-                src="/checkout-cart-icon-16.png"
-                width={40}
-                height={40}
-                alt="View your checkout cart"
-              />
-            </Link>
-          </div>
-          <div>
-            <Link
-              href="https://github.com/Rapid-Reservation"
-              className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
-            >
-              <Image
-                className="rounded-full"
-                src="/github-mark.png"
-                width={40}
-                height={40}
-                alt="Link to Rapid Reservation GitHub org"
-              />
-            </Link>
-          </div>
+          {/* Render additional buttons based on login status */}
+          {isLoggedIn && (
+            <>
+              <div>
+                <Link
+                  href="/menu"
+                  className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
+                >
+                  <Image
+                    className="rounded-full"
+                    src="/checkout-cart-icon-16.png"
+                    width={40}
+                    height={40}
+                    alt="View your checkout cart"
+                  />
+                </Link>
+              </div>
+              <div>
+                <Link
+                  href="https://github.com/Rapid-Reservation"
+                  className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
+                >
+                  <Image
+                    className="rounded-full"
+                    src="/github-mark.png"
+                    width={40}
+                    height={40}
+                    alt="Link to Rapid Reservation GitHub org"
+                  />
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </>

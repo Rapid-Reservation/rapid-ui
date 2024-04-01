@@ -1,10 +1,25 @@
-import Header from "@/components/header";
-import Floor from "@/components/floor";
+// import Header from "@/components/header";
+// import Floor from "@/components/floor";
 
-export default function Index() {
+// export default function Index() {
+//   return (
+//     <>
+//       <Floor />
+//     </>
+//   );
+// }
+
+import LoginForm from "@/components/loginform";
+import { AuthProvider } from "@/context/authContext";
+export default function Login() {
+  let users = new Map();
+  users.set("admin", "pass");
+
   return (
     <>
-      <Floor />
+      <div className="flex justify-center items-center h-screen">
+        <LoginForm usersDb={users} />
+      </div>
     </>
   );
 }
