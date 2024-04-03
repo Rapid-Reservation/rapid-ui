@@ -1,14 +1,3 @@
-// import Header from "@/components/header";
-// import Floor from "@/components/floor";
-
-// export default function Index() {
-//   return (
-//     <>
-//       <Floor />
-//     </>
-//   );
-// }
-
 import LoginForm from "@/components/loginform";
 import { AuthProvider } from "@/context/authContext";
 export default function Login() {

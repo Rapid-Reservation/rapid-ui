@@ -5,6 +5,7 @@ export default function Floor() {
   // Array that will hold our TableData returned by API
   const [tables, setTables] = useState<TableData[]>([]);
   const url = "https://rapid-api-rho.vercel.app";
+  //const url = "http://127.0.0.1:8000";
 
   // Use UseEffect hook to call asynchronus function fetchTableData. Hits get table endpoint
   useEffect(() => {

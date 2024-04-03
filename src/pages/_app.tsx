@@ -1,6 +1,18 @@
+import Header from "@/components/header";
+import { AuthProvider } from "@/context/authContext";
+import { CartProvider } from "@/context/cartContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <AuthProvider>
+        <CartProvider>
+          <Header />
+          <Component {...pageProps} />
+        </CartProvider>
+      </AuthProvider>
+    </>
+  );
 }
