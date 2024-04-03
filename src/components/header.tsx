@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
+import CartModal from "./cartmodal";
 
 export default function Header() {
   const { isLoggedIn } = useAuth();
@@ -72,18 +73,7 @@ export default function Header() {
           {isLoggedIn && (
             <>
               <div>
-                <Link
-                  href="/menu"
-                  className="inline-block rounded-full border-white px-4 px-4 py-2 py-2 text-sm font-bold leading-none text-white text-white hover:border-transparent hover:bg-blue-700 hover:text-teal-500"
-                >
-                  <Image
-                    className="rounded-full"
-                    src="/checkout-cart-icon-16.png"
-                    width={40}
-                    height={40}
-                    alt="View your checkout cart"
-                  />
-                </Link>
+                <CartModal />
               </div>
               <div>
                 <Link
