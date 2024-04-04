@@ -8,8 +8,8 @@ export default function Table({ data }: { data: TableData }) {
   const [openPopover, setOpenPopover] = useState<boolean>(false); // State to manage the visibility of the Popover
   const [openModal, setOpenModal] = useState<boolean>(false); // State to manage the visibility of the Modal
   const [available, setAvailable] = useState<boolean>(data.table_available);
-  const url = "https://rapid-api-rho.vercel.app";
-  //const url = "http://127.0.0.1:8000";
+  //const url = "https://rapid-api-rho.vercel.app";
+  const url = "http://127.0.0.1:8000";
   const availabilityStyle = available
     ? styles.tableAvailable
     : styles.tableNotAvailable;
