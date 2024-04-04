@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
           position: "fixed",
           top: 0,
           left: 0,
-          backgroundImage: `url(${backgroundImage.src})`, // Adjust the path here
+          backgroundImage: "url(${backgroundImage.src})", // Adjust the path here
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100vw",
