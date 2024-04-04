@@ -3,9 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/authContext";
 import CartModal from "./cartmodal";
+import { useRouter } from "next/router";
 
 export default function Header() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
+  const router = useRouter();
+
+  const Logout = () => {
+    logout;
+    router.push("/");
+  };
 
   return (
     <>
@@ -64,6 +71,7 @@ export default function Header() {
           {/* Render additional buttons based on login status */}
           {isLoggedIn && (
             <>
+              <div onClick={Logout}>Logout</div>
               <div>
                 <CartModal />
               </div>
