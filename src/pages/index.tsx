@@ -10,12 +10,11 @@ export default function HomePage() {
     <>
       <div className="text-center bg-black-500/50 mt-16 md:mt-32">
         {" "}
-        {/* Adjust margin top for smaller devices */}
         <h1 className="text-lg font-bold tracking-tight text-white-900 sm:text-3xl">
           Hungry now? Order at ease with Rapid Reservation!
         </h1>
         <p className="mt-6 text-lg leading-8 text-white-600">
-          Pick your seat, then pick your food. It's that simple!
+          Pick your seat, then pick your food. It is that simple!
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <a
