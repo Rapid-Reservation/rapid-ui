@@ -1,6 +1,7 @@
 import LoginForm from "@/components/loginform";
 import { AuthProvider } from "@/context/authContext";
 import backgroundImage from "../../public/stock-background.jpg";
+import Link from "next/link";
 
 export default function HomePage() {
   let users = new Map();
@@ -23,12 +24,12 @@ export default function HomePage() {
           >
             Sign Up
           </a>
-          <a
-            href="#"
+          <Link
+            href="/login"
             className="text-sm font-semibold leading-6 text-white-900"
           >
             Login <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </>

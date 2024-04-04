@@ -38,7 +38,7 @@ export default function Header() {
           <div className="text-sm lg:flex-grow">
             {!isLoggedIn && (
               <Link
-                href="/login"
+                href="/"
                 className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
               >
                 Home
@@ -59,14 +59,6 @@ export default function Header() {
                   Menu
                 </Link>
               </>
-            )}
-            {!isLoggedIn && (
-              <Link
-                href="/login"
-                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-              >
-                Login
-              </Link>
             )}
           </div>
           {/* Render additional buttons based on login status */}
