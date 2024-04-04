@@ -1,26 +1,41 @@
-// authContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext<any>(null);
 
+// context wrapper to allow components to use this globally!
 export const AuthProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    // Initialize isLoggedIn state from localStorage if available
+    const storedLoggedIn = localStorage.getItem("isLoggedIn");
+    if (storedLoggedIn) {
+      setIsLoggedIn(JSON.parse(storedLoggedIn));
+    }
+  }, []);
+
   const login = () => {
-    // Simulate login logic (replace with actual login logic)
-    console.log(`Current login state: ${isLoggedIn}`);
-    console.log("Updating global login state");
+    // TODO: Add API login logic to allow protected routes
     setIsLoggedIn(true);
-    console.log(isLoggedIn);
+    // Store isLoggedIn state in localStorage
+    localStorage.setItem("isLoggedIn", JSON.stringify(true));
   };
 
   const logout = () => {
-    // Simulate logout logic (replace with actual logout logic)
     setIsLoggedIn(false);
+    // Remove isLoggedIn state from localStorage
+    localStorage.removeItem("isLoggedIn");
   };
 
   useEffect(() => {
     console.log(`isLoggedIn state changed to: ${isLoggedIn}`);
+    // Set a timeout to clear isLoggedIn state after 5 minutes
+    const timeoutId = setTimeout(() => {
+      logout();
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds ( 5 mins by 60 to get second, times 1000 for miliseconds)
+
+    // Cleanup the timeout on component unmount
+    return () => clearTimeout(timeoutId);
   }, [isLoggedIn]);
 
   return (

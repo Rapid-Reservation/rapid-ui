@@ -25,7 +25,7 @@ const CartContext = createContext<CartContextValue>({
   updateCartData: () => {},
 });
 
-// Create a provider component for the cart context
+// Create a provider component for the cart context so components can use globally
 export const CartProvider = ({ children }: any) => {
   const emptyCart: CartData = {
     customer_id: 0,
@@ -40,16 +40,13 @@ export const CartProvider = ({ children }: any) => {
     setCartData(newCartData);
   };
 
-  useEffect(() => {
-    // You can add any initialization logic here, e.g., fetching cart data from server
-  }, []);
+  useEffect(() => {}, []);
 
   const getCartData = () => {
     console.log(cartData);
     return cartData;
   };
 
-  // Define the context value
   const contextValue: CartContextValue = {
     cartData,
     updateCartData,
