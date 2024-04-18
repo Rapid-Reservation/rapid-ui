@@ -3,7 +3,10 @@ import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { QueryClient, QueryClientProvider } from "react-query";
 import backgroundImage from "../../public/stock-background.jpg";
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -25,10 +28,12 @@ export default function App({ Component, pageProps }: AppProps) {
       />
       <div style={{ position: "relative" }}>
         <AuthProvider>
-          <CartProvider>
-            <Header />
-            <Component {...pageProps} />
-          </CartProvider>
+          <QueryClientProvider client={queryClient}>
+            <CartProvider>
+              <Header />
+              <Component {...pageProps} />
+            </CartProvider>
+          </QueryClientProvider>
         </AuthProvider>
       </div>
     </>

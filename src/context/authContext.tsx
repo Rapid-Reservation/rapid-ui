@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: any) => {
   const logout = () => {
     setIsLoggedIn(false);
     // Remove isLoggedIn state from localStorage
-    localStorage.removeItem("isLoggedIn");
+    localStorage.setItem("isLoggedIn", JSON.stringify(false));
   };
 
   useEffect(() => {
