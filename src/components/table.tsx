@@ -68,12 +68,13 @@ export default function Table({ data }: { data: TableData }) {
   const popoverId = open ? "popover" : undefined;
   const modalStyle = {
     position: "absolute",
-    top: "50%",
+    top: "25%",
     left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
+    transform: "translate(-50%)",
+    width: 450,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    // color: "black",
+    // border: "2px solid #000",
     boxShadow: 24,
     p: 4,
   };
@@ -145,15 +146,7 @@ export default function Table({ data }: { data: TableData }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Add your menu items here.
           </Typography>
-          <Menu />
-
-          <Button
-            onClick={() => handleCloseModal()}
-            variant="contained"
-            sx={{ m: 2 }}
-          >
-            Close
-          </Button>
+          <Menu handleClose={handleCloseModal}/>
         </Box>
       </Modal>
     </div>
