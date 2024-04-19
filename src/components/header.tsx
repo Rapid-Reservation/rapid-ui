@@ -9,8 +9,8 @@ export default function Header() {
   const { isLoggedIn, logout } = useAuth();
   const router = useRouter();
 
-  const Logout = () => {
-    logout;
+  const handleLogout = () => {
+    logout();
     router.push("/");
   };
 
@@ -43,15 +43,7 @@ export default function Header() {
         </div>
         <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
           <div className="text-sm lg:flex-grow">
-            {!isLoggedIn && (
-              <Link
-                href="/"
-                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
-              >
-                Home
-              </Link>
-            )}
-            {isLoggedIn && (
+            {isLoggedIn ? (
               <>
                 <Link
                   href="/reserve"
@@ -66,12 +58,19 @@ export default function Header() {
                   Menu
                 </Link>
               </>
+            ) : (
+              <Link
+                href="/"
+                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+              >
+                Home
+              </Link>
             )}
           </div>
           {/* Render additional buttons based on login status */}
           {isLoggedIn && (
             <>
-              <div onClick={Logout}>Logout</div>
+              <div onClick={handleLogout}>Logout</div>
               <div>
                 <CartModal />
               </div>

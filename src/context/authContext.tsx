@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext<any>(null);
 
-// context wrapper to allow components to use this globally!
 export const AuthProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -15,24 +14,41 @@ export const AuthProvider = ({ children }: any) => {
     }
   }, []);
 
-  const login = () => {
-    // TODO: Add API login logic to allow protected routes
-    setIsLoggedIn(true);
-    // Store isLoggedIn state in localStorage
-    localStorage.setItem("isLoggedIn", JSON.stringify(true));
+  // @ts-ignore
+  const login = async (credentials) => {
+    try {
+      const response = await fetch("/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(credentials).toString(),
+      });
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+      const data = await response.json();
+      setIsLoggedIn(true);
+      localStorage.setItem("isLoggedIn", JSON.stringify(true));
+      localStorage.setItem("accessToken", data.access_token);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    // Remove isLoggedIn state from localStorage
     localStorage.setItem("isLoggedIn", JSON.stringify(false));
+    localStorage.removeItem("accessToken");
   };
 
   useEffect(() => {
     console.log(`isLoggedIn state changed to: ${isLoggedIn}`);
     // Set a timeout to clear isLoggedIn state after 5 minutes
     const timeoutId = setTimeout(() => {
+      alert("You are being logged out");
       logout();
+      router.push("/");
     }, 5 * 60 * 1000); // 5 minutes in milliseconds ( 5 mins by 60 to get second, times 1000 for miliseconds)
 
     // Cleanup the timeout on component unmount
