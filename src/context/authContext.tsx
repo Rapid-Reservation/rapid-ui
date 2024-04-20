@@ -1,59 +1,44 @@
-import router from "next/router";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const url = "https://rapid-api-rho.vercel.app"; //live version
+  const url = "http://127.0.0.1:8000"; //localhost
 
   useEffect(() => {
-    // Initialize isLoggedIn state from localStorage if available
-    const storedLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedLoggedIn) {
-      setIsLoggedIn(JSON.parse(storedLoggedIn));
+    // Check if user is already logged in on initial load
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setIsLoggedIn(true);
     }
   }, []);
 
-  // @ts-ignore
-  const login = async (credentials) => {
+  const login = async (username: string, password: string) => {
     try {
-      const response = await fetch("/token", {
+      const response = await fetch(`${url}/login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: new URLSearchParams(credentials).toString(),
+        body: JSON.stringify({ username, password }),
       });
       if (!response.ok) {
-        throw new Error("Invalid credentials");
+        throw new Error("Login failed");
       }
       const data = await response.json();
+      localStorage.setItem("accessToken", data.token);
       setIsLoggedIn(true);
-      localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      localStorage.setItem("accessToken", data.access_token);
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
-    localStorage.setItem("isLoggedIn", JSON.stringify(false));
     localStorage.removeItem("accessToken");
+    setIsLoggedIn(false);
   };
-
-  useEffect(() => {
-    console.log(`isLoggedIn state changed to: ${isLoggedIn}`);
-    // Set a timeout to clear isLoggedIn state after 5 minutes
-    const timeoutId = setTimeout(() => {
-      alert("You are being logged out");
-      logout();
-      router.push("/");
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds ( 5 mins by 60 to get second, times 1000 for miliseconds)
-
-    // Cleanup the timeout on component unmount
-    return () => clearTimeout(timeoutId);
-  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
@@ -63,3 +48,14 @@ export const AuthProvider = ({ children }: any) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+export const ProtectRoute = ({ children }: any) => {
+  const { isLoggedIn } = useAuth();
+
+  // Redirect to login page if user is not logged in
+  if (!isLoggedIn) {
+    // Redirect logic or show login form
+  }
+
+  return children;
+};

@@ -70,7 +70,12 @@ export default function Header() {
           {/* Render additional buttons based on login status */}
           {isLoggedIn && (
             <>
-              <div onClick={handleLogout}>Logout</div>
+              <div
+                onClick={handleLogout}
+                className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block cursor-pointer"
+              >
+                Logout
+              </div>
               <div>
                 <CartModal />
               </div>

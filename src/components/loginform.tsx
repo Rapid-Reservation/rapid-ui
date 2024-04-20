@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/context/authContext";
-import { useMutation } from "react-query";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
@@ -10,51 +9,17 @@ export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
 
-  // Define a login mutation using React Query's useMutation hook
-  const {
-    mutate: loginMutation,
-    isLoading,
-    isError,
-  } = useMutation(
-    // Define the login function that will be called on mutation
-    async (credentials) => {
-      const response = await fetch("http://127.0.0.1:8000/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail);
-      }
-
-      return response.json();
-    },
-    {
-      // Define the onSuccess callback to handle successful login
-      onSuccess: (data) => {
-        // Assuming the API returns an access token upon successful authentication
-        const accessToken = data.access_token;
-
-        // Call the login function to update authentication state
-        login(accessToken);
-        setErrorMessage("");
-
-        // Redirect user to "/reserve" after successful login
-        router.push("/reserve");
-      },
-    }
-  );
-  // @ts-ignore
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    // Call the loginMutation function with the username and password
-    // @ts-ignore
-    loginMutation({ username, password });
+    try {
+      await login(username, password);
+      // Redirect user to "/reserve" after successful login
+      router.push("/reserve");
+    } catch (error) {
+      // @ts-ignore
+      setErrorMessage(error.message);
+    }
   };
 
   return (
@@ -92,15 +57,13 @@ export default function LoginForm() {
           <button
             className="bg-white rounded-full px-4 py-2 shadow-md text-black"
             type="submit"
-            disabled={isLoading} // Disable the button while the mutation is loading
           >
-            {isLoading ? "Signing in..." : "Sign in"}
+            Sign in
           </button>
         </div>
-        {isError && (
+        {errorMessage && (
           <div className="flex justify-center mt-2 text-red-500">
-            {/* @ts-ignore */}
-            Error: {isError.message}
+            Error: {errorMessage}
           </div>
         )}
       </form>
