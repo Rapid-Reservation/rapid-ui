@@ -1,43 +1,44 @@
-import router from "next/router";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext<any>(null);
 
-// context wrapper to allow components to use this globally!
 export const AuthProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const url = "https://rapid-api-rho.vercel.app"; //live version
+  const url = "http://127.0.0.1:8000"; //localhost
 
   useEffect(() => {
-    // Initialize isLoggedIn state from localStorage if available
-    const storedLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedLoggedIn) {
-      setIsLoggedIn(JSON.parse(storedLoggedIn));
+    // Check if user is already logged in on initial load
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      setIsLoggedIn(true);
     }
   }, []);
 
-  const login = () => {
-    // TODO: Add API login logic to allow protected routes
-    setIsLoggedIn(true);
-    // Store isLoggedIn state in localStorage
-    localStorage.setItem("isLoggedIn", JSON.stringify(true));
+  const login = async (username: string, password: string) => {
+    try {
+      const response = await fetch(`${url}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.token);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   const logout = () => {
+    localStorage.removeItem("accessToken");
     setIsLoggedIn(false);
-    // Remove isLoggedIn state from localStorage
-    localStorage.setItem("isLoggedIn", JSON.stringify(false));
   };
-
-  useEffect(() => {
-    console.log(`isLoggedIn state changed to: ${isLoggedIn}`);
-    // Set a timeout to clear isLoggedIn state after 5 minutes
-    const timeoutId = setTimeout(() => {
-      logout();
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds ( 5 mins by 60 to get second, times 1000 for miliseconds)
-
-    // Cleanup the timeout on component unmount
-    return () => clearTimeout(timeoutId);
-  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
@@ -47,3 +48,14 @@ export const AuthProvider = ({ children }: any) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+export const ProtectRoute = ({ children }: any) => {
+  const { isLoggedIn } = useAuth();
+
+  // Redirect to login page if user is not logged in
+  if (!isLoggedIn) {
+    // Redirect logic or show login form
+  }
+
+  return children;
+};

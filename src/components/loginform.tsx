@@ -2,35 +2,23 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/context/authContext";
 
-export default function LoginForm({
-  usersDb,
-}: {
-  usersDb: Map<string, string>;
-}) {
+export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn, login } = useAuth();
+  const [errorMessage, setErrorMessage] = useState("");
+  const { login } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    console.log(
-      "Form submitted with username:",
-      username,
-      "and password:",
-      password
-    );
-
-    // Check if username and password match
-    if (usersDb.get(username) === password) {
-      // Call login function to update authentication state
-      login();
-
+    try {
+      await login(username, password);
       // Redirect user to "/reserve" after successful login
       router.push("/reserve");
-    } else {
-      console.log("Incorrect username or password");
+    } catch (error) {
+      // @ts-ignore
+      setErrorMessage(error.message);
     }
   };
 
@@ -73,6 +61,11 @@ export default function LoginForm({
             Sign in
           </button>
         </div>
+        {errorMessage && (
+          <div className="flex justify-center mt-2 text-red-500">
+            Error: {errorMessage}
+          </div>
+        )}
       </form>
     </div>
   );
