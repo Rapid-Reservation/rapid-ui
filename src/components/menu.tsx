@@ -5,6 +5,37 @@ import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 import CircleIcon from '@mui/icons-material/Circle';
 
+const foodData = [
+  {
+    name: "Pizza",
+    price: 7.99
+  },
+  {
+    name: "Cheeseburger",
+    price: 4.99
+  },
+  {
+    name: "Salad",
+    price: 3.99
+  },
+  {
+    name: "Cornish Pasties",
+    price: 4.99
+  },
+  {
+    name: "Roasted Beet Salad",
+    price: 4.99
+  },
+  {
+    name: "Water",
+    price: 1.99
+  },
+  {
+    name: "Fountain Drink",
+    price: 2.99
+  },
+]
+
 // Taken from https://mui.com/material-ui/react-tabs/#introduction
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,92 +73,72 @@ function a11yProps(index: number) {
 }
 
 export default function Menu({ handleClose }: { handleClose: () => void }) {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null); // State to manage the anchor element for Popover
-  const [openPopover, setOpenPopover] = useState<boolean>(false); // State to manage the visibility of the Popover
+  const [cartItems, setCartItems] = useState<FoodItem[]>([]);
   const [tabvalue, settabValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     settabValue(newValue);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (!openPopover) {
-      //@ts-ignore
-      setAnchorEl(event.currentTarget.parentElement.parentElement); // Set the anchor element when the table is clicked
-      setOpenPopover(true); // Open the Popover
+  const addCartItem = (itemID: number) => {
+    let newCartItems = cartItems.slice();
+    const cartItemIDs = cartItems.map((foodItem) => foodItem.food_id);
+    const itemIndex = cartItemIDs.indexOf(itemID);
+
+    if (itemIndex >= 0) {
+      newCartItems[itemIndex].quantity += 1;
+    }
+    else {
+      newCartItems.push({
+        food_id: itemID,
+        quantity: 1
+      });
     }
 
-    // add item to cart
-
-  };
-
-  const handleClosePopover = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation(); // Prevent event propagation to prevent Popover from reopening
-    setOpenPopover(false); // Close the Popover
+    setCartItems(newCartItems);
   };
   return (
     <>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={tabvalue} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Menu" {...a11yProps(0)} />
-          <Tab label="Cart (4)" {...a11yProps(1)} />
+          <Tab label={`Cart (${cartItems.length})`} {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={tabvalue} index={0}>
         <Divider>Apps</Divider>
         <Container sx={{ mb: 2 }}>
-          <Button onClick={handleClick} size="small" endIcon={<AddIcon />}>Item</Button>
+          <Button onClick={() => {addCartItem(4)}} size="small" endIcon={<AddIcon />}>Cornish Pasties</Button>
+          <Button onClick={() => {addCartItem(5)}} size="small" endIcon={<AddIcon />}>Roasted Beet Salad</Button>
         </Container >
         <Divider>Meals</Divider>
         <Container sx={{ mb: 2 }}>
-          <Button onClick={handleClick} size="small" endIcon={<AddIcon />}>Item</Button>
+          <Button onClick={() => {addCartItem(1)}} size="small" endIcon={<AddIcon />}>Pizza</Button>
+          <Button onClick={() => {addCartItem(2)}} size="small" endIcon={<AddIcon />}>Cheeseburger</Button>
+          <Button onClick={() => {addCartItem(3)}} size="small" endIcon={<AddIcon />}>Salad</Button>
         </Container>
         <Divider>Drinks</Divider>
         <Container sx={{ mb: 2 }}>
-          <Button onClick={handleClick} size="small" endIcon={<AddIcon />}>Item</Button>
+          <Button onClick={() => {addCartItem(6)}} size="small" endIcon={<AddIcon />}>Water</Button>
+          <Button onClick={() => {addCartItem(7)}} size="small" endIcon={<AddIcon />}>Fountain Drink</Button>
         </Container>
       </CustomTabPanel>
       <CustomTabPanel value={tabvalue} index={1}>
         <List dense={true}>
-            <ListItem>
-              <ListItemIcon>
-                -
-              </ListItemIcon>
-              <ListItemText
-                primary="Cheeseburger"
-                secondary={'$5.99'}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                -
-              </ListItemIcon>
-              <ListItemText
-                primary="Fries"
-                secondary={'$3.99'}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                -
-              </ListItemIcon>
-              <ListItemText
-                primary="Chicken Tenders"
-                secondary={'$5.99'}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                -
-              </ListItemIcon>
-              <ListItemText
-                primary="Soda"
-                secondary={'$2.99'}
-              />
-            </ListItem>
+            {cartItems.map((foodItem: FoodItem) => {
+              return (<ListItem>
+                <ListItemIcon>
+                  -
+                </ListItemIcon>
+                <ListItemText
+                  primary={`${foodData[foodItem.food_id - 1].name} (${foodItem.quantity})`}
+                  secondary={`$${foodData[foodItem.food_id - 1].price}`}
+                />
+              </ListItem>)
+            })}
         </List>
         <Divider textAlign="left" sx={{ mb: 2 }}>Total</Divider>
-        <Typography textAlign="center">$999.99</Typography>
+        <Typography textAlign="center">{`$${cartItems.reduce((partialSum, foodItem: FoodItem) => partialSum + foodItem.quantity * foodData[foodItem.food_id - 1].price, 0).toFixed(2)}`}</Typography>
       </CustomTabPanel>
       <Container>
           <Button
