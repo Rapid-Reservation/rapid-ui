@@ -47,6 +47,14 @@ export const CartProvider = ({ children }: any) => {
     return cartData;
   };
 
+  // Function to add and item to cart!
+  const addToCart = (item: string) => {
+    setCartData((prevCartData) => ({
+      ...prevCartData,
+      items: [...prevCartData.items, item],
+    }));
+  };
+
   const contextValue: CartContextValue = {
     cartData,
     updateCartData,

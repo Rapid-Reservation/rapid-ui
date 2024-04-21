@@ -25,14 +25,13 @@ export default function App({ Component, pageProps }: AppProps) {
           position: "fixed",
           top: 0,
           left: 0,
-          backgroundImage:
-            "url(https://www.rolandosrestaurant.com/images/slideshow/slide3.jpg)", // Adjust the path here
+          backgroundImage: `url(${backgroundImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           width: "100vw",
           height: "100vh",
           opacity: "0.4",
-          zIndex: -1, // Make sure the background image stays behind the content
+          zIndex: -1, // Make sure the background image stays behind the content, think of an array, its the end no matter what!
         }}
       />
       <div style={{ position: "relative" }}>

@@ -3,8 +3,9 @@ import { useQuery } from "react-query";
 import Table from "./table";
 
 export default function Floor() {
-  const url = "https://rapid-api-rho.vercel.app/table"; //live api url
-  //const url = "http://127.0.0.1:8000"; localhost url
+  // Use useQuery hook to fetch data
+  const url = "https://rapid-api-rho.vercel.app/table"; //live api
+  //const url = "http://127.0.0.1:8000"; localhost
   const { data, isLoading, isError, error } = useQuery("tables", fetchTables);
 
   // Function to fetch table data from database
