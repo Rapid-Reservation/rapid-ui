@@ -2,17 +2,12 @@ import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import backgroundImage from "../../public/stock-background.jpg";
-<<<<<<< HEAD
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-=======
 
 import Header from "@/components/header";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
->>>>>>> refs/remotes/origin/main
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const queryClient = new QueryClient();
 
@@ -22,10 +17,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       mode: "dark",
     },
   });
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/main
   return (
     <>
       <div
@@ -49,14 +40,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <CartProvider>
               <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
-                <Header />
+                <Layout />
                 <Component {...pageProps} />
               </ThemeProvider>
             </CartProvider>
           </QueryClientProvider>
         </AuthProvider>
       </div>
-
     </>
   );
 }
@@ -69,5 +59,3 @@ function Layout({ children }: any) {
     </div>
   );
 }
-
-export default MyApp;
