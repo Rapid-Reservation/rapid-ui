@@ -3,18 +3,20 @@ import { useQuery } from "react-query";
 import Table from "./table";
 
 export default function Floor() {
-  // Use useQuery hook to fetch data
+  const url = "https://rapid-api-rho.vercel.app/table"; //live api url
+  //const url = "http://127.0.0.1:8000"; localhost url
   const { data, isLoading, isError, error } = useQuery("tables", fetchTables);
 
-  // Function to fetch table data
+  // Function to fetch table data from database
   async function fetchTables() {
     try {
-      const res = await fetch("https://rapid-api-rho.vercel.app/table");
+      const res = await fetch(url);
       if (!res.ok) {
         throw new Error("Failed to fetch data");
       }
       return res.json();
     } catch (error) {
+      // @ts-ignore
       throw new Error("Error fetching table data:", error);
     }
   }
@@ -23,6 +25,7 @@ export default function Floor() {
   if (isLoading) return <div>Loading...</div>;
 
   // Handle error state
+  // @ts-ignore
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
