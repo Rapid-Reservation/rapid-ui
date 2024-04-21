@@ -5,10 +5,19 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import backgroundImage from "../../public/stock-background.jpg";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+
+  
   return (
     <>
       <div
@@ -29,8 +38,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
             <CartProvider>
-              <Header />
-              <Component {...pageProps} />
+              <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
+                <Header />
+                <Component {...pageProps} />
+              </ThemeProvider>
             </CartProvider>
           </QueryClientProvider>
         </AuthProvider>

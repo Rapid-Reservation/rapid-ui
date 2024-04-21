@@ -8,7 +8,7 @@ export default function Floor() {
   //const url = "http://127.0.0.1:8000"; localhost
   const { data, isLoading, isError, error } = useQuery("tables", fetchTables);
 
-  // Function to fetch table data
+  // Function to fetch table data from database
   async function fetchTables() {
     try {
       const res = await fetch(url);
