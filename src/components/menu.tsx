@@ -72,7 +72,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function Menu({ handleClose }: { handleClose: () => void }) {
+export default function Menu({ tableID, handleClose, handleReserve }: { tableID: number, handleClose: () => void, handleReserve: () => Promise<void> }) {
   const [cartItems, setCartItems] = useState<FoodItem[]>([]);
   const [tabvalue, settabValue] = useState(0);
 
@@ -97,6 +97,45 @@ export default function Menu({ handleClose }: { handleClose: () => void }) {
 
     setCartItems(newCartItems);
   };
+
+  const handleSubmitCart = async () => {
+    try {
+      // Run the setReservation function
+      await submitCart();
+
+      // Close the modal after reservation
+      handleClose();
+
+      // reserve the table
+      handleReserve();
+    } catch (error) {
+      console.error("Error reserving table:", error);
+    }
+  };
+
+  const submitCart = async () => {
+    try {
+      // Format data to POST
+      const orderData: CartData = {
+        customer_id: 1,  // currently set to 1 for admin as the id
+        table_number: tableID,
+        items: cartItems
+      }
+
+      const url = "https://rapid-api-rho.vercel.app";
+      const endpoint = url + '/order/place';
+
+      // Send a POST request to the determined endpoint to update the availability state
+      await fetch(endpoint, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      });
+    } catch (error) {
+      console.error("Error updating table availability:", error);
+    }
+  };
+
   return (
     <>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -150,6 +189,7 @@ export default function Menu({ handleClose }: { handleClose: () => void }) {
           </Button>
           <Tooltip title={<Typography>Submitting your order will reserve the table for you.</Typography>}>
             <Button
+              onClick={handleSubmitCart}
               variant="contained"
               sx={{ m: 2 }}
               color="success"

@@ -20,8 +20,10 @@ export default function Table({ data }: { data: TableData }) {
     setOpenPopover(true); // Open the Popover
   };
 
-  const handleClosePopover = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation(); // Prevent event propagation to prevent Popover from reopening
+  const handleClosePopover = (event: React.MouseEvent<HTMLElement> | null) => {
+    if (event) {
+      event.stopPropagation(); // Prevent event propagation to prevent Popover from reopening
+    }
     setOpenPopover(false); // Close the Popover
   };
 
@@ -97,7 +99,9 @@ export default function Table({ data }: { data: TableData }) {
         id={popoverId}
         open={openPopover}
         anchorEl={anchorEl}
-        onClose={handleClosePopover}
+        onClose={(event: React.MouseEvent<HTMLElement>) => {
+          handleClosePopover(event);
+        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "right",
@@ -115,19 +119,18 @@ export default function Table({ data }: { data: TableData }) {
             Click the button below to change the status of the table.
           </Typography>
           <div className="lg:items-center">
-            <Button onClick={handleReserve} variant="contained" sx={{ m: 2 }}>
-              {popoverLabel}
-            </Button>
-            <Button onClick={handleOpenModal} variant="contained" sx={{ m: 2 }}>
-              Place Order
-            </Button>
-            {/* <Button
-            onClick={handleClosePopover}
-            variant="contained"
-            sx={{ m: 2 }}
-          >
-            Close
-          </Button> */}
+            {
+              // set the popover button to either allow the user to order, or to unreserve the table
+              available
+              ?
+              <Button onClick={handleOpenModal} variant="contained" sx={{ m: 2 }}>
+                Place Order
+              </Button>
+              :
+              <Button onClick={handleReserve} variant="contained" sx={{ m: 2 }}>
+                {popoverLabel}
+              </Button>
+            }
           </div>
         </div>
       </Popover>
@@ -146,7 +149,13 @@ export default function Table({ data }: { data: TableData }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Add your menu items here.
           </Typography>
-          <Menu handleClose={handleCloseModal}/>
+          <Menu
+          tableID={data.table_id}
+          handleReserve={handleReserve}
+          handleClose={() => {
+            handleCloseModal();
+            handleClosePopover(null);
+          }}/>
         </Box>
       </Modal>
     </div>

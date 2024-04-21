@@ -2,7 +2,6 @@
 
 interface CartData {
   customer_id: number | null;
-  total_price: number | null;
-  table_id: number | null;
+  table_number: number | null;
   items: FoodItem[] | null;
 }
