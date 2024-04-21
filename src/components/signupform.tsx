@@ -11,8 +11,8 @@ export default function SignUpForm() {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  // const url = "https://rapid-api-rho.vercel.app"; //live version
-  const url = "http://127.0.0.1:8000"; // localhost
+  const url = "https://rapid-api-rho.vercel.app"; //live version
+  // const url = "http://127.0.0.1:8000"; // localhost
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
