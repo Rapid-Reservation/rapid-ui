@@ -1,5 +1,8 @@
-// Form needs to store:
-// Name,DOB, Address, Username, Pass
+import SignUpForm from "@/components/signupform";
 export default function Signup() {
-  return <></>;
+  return (
+    <>
+      <SignUpForm />
+    </>
+  );
 }

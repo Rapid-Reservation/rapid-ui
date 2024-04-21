@@ -1,10 +1,11 @@
-import Header from "@/components/header";
 import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import backgroundImage from "../../public/stock-background.jpg";
+
+import Header from "@/components/header";
+import "@/styles/globals.css";
+import type { AppProps } from "next/app";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -17,7 +18,6 @@ export default function App({ Component, pageProps }: AppProps) {
     },
   });
 
-  
   return (
     <>
       <div
@@ -31,9 +31,10 @@ export default function App({ Component, pageProps }: AppProps) {
           width: "100vw",
           height: "100vh",
           opacity: "0.4",
-          zIndex: -1, // Make sure the background image stays behind the content, think of an array, its the end no matter what!
+          zIndex: -1,
         }}
       />
+
       <div style={{ position: "relative" }}>
         <AuthProvider>
           <QueryClientProvider client={queryClient}>
@@ -47,6 +48,18 @@ export default function App({ Component, pageProps }: AppProps) {
           </QueryClientProvider>
         </AuthProvider>
       </div>
+
     </>
   );
 }
+
+function Layout({ children }: any) {
+  return (
+    <div style={{ position: "relative" }}>
+      <Header />
+      <main>{children}</main>
+    </div>
+  );
+}
+
+export default MyApp;
