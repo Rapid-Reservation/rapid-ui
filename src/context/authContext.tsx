@@ -4,8 +4,11 @@ const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  //const url = "https://rapid-api-rho.vercel.app"; //live version
-  const url = "http://127.0.0.1:8000"; //localhost
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userName, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
+  const url = "https://rapid-api-rho.vercel.app"; //live version
+  //const url = "http://127.0.0.1:8000"; //localhost
 
   useEffect(() => {
     // Check if user is already logged in on initial load
@@ -29,7 +32,11 @@ export const AuthProvider = ({ children }: any) => {
       }
       const data = await response.json();
       localStorage.setItem("accessToken", data.token);
+      setIsAdmin(data.user.isadmin);
+      setUserId(data.user.user_id);
+      setUsername(data.user.user_name);
       setIsLoggedIn(true);
+      console.log(isAdmin, userId, userName);
     } catch (error) {
       console.error("Login error:", error);
     }
