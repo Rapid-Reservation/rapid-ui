@@ -4,12 +4,9 @@ import backgroundImage from "../../public/stock-background.jpg";
 import Link from "next/link";
 
 export default function HomePage() {
-  let users = new Map();
-  users.set("admin", "pass");
-
   return (
     <>
-      <div className="text-center bg-black-500/50 mt-16 md:mt-32">
+      <div className="flex flex-col items-center justify-center h-screen bg-black-500/50">
         {" "}
         <h1 className="text-lg font-bold tracking-tight text-white-900 sm:text-3xl">
           Hungry now? Order at ease with Rapid Reservation!
@@ -18,12 +15,12 @@ export default function HomePage() {
           Pick your seat, then pick your food. It is that simple!
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <a
+          <Link
             href="/signup"
             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign Up
-          </a>
+          </Link>
           <Link
             href="/login"
             className="text-sm font-semibold leading-6 text-white-900"

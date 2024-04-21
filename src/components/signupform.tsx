@@ -65,59 +65,73 @@ export default function SignUpForm() {
       <div className="flex justify-center items-center h-screen">
         <div className="bg-gray-700 p-8 rounded-lg">
           <form onSubmit={handleSubmit} className="w-full max-w-md">
-            <div className="flex justify-center">
-              <label>Fill out the form below to create your account!</label>
+            <div className="flex justify-center mb-6">
+              <label className="block text-white font-bold mb-2">
+                Fill out the form below to create your account!
+              </label>
             </div>
-            <br />
-            <div className="flex justify-center">
-              <label htmlFor="username">Username: </label>
+            <div className="mb-6">
+              <label
+                htmlFor="username"
+                className="block text-white font-bold mb-2"
+              >
+                Username:{" "}
+              </label>
               <input
                 type="text"
                 id="username"
                 name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
-              <label htmlFor="password">Password: </label>
+            <div className="mb-6">
+              <label
+                htmlFor="password"
+                className="block text-white font-bold mb-2"
+              >
+                Password:{" "}
+              </label>
               <input
                 type="password"
                 id="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
-              <label htmlFor="name">Name: </label>
+            <div className="mb-6">
+              <label htmlFor="name" className="block text-white font-bold mb-2">
+                Name:{" "}
+              </label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
-              <label htmlFor="address">Address: </label>
+            <div className="mb-6">
+              <label
+                htmlFor="address"
+                className="block text-white font-bold mb-2"
+              >
+                Address:{" "}
+              </label>
               <input
                 type="text"
                 id="address"
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
+            <div className="mb-6">
               <label htmlFor="phone">Phone Number: </label>
               <input
                 type="text"
@@ -125,23 +139,26 @@ export default function SignUpForm() {
                 name="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
-              <label htmlFor="address">Email: </label>
+            <div className="mb-6">
+              <label
+                htmlFor="address"
+                className="block text-white font-bold mb-2"
+              >
+                Email:{" "}
+              </label>
               <input
                 type="text"
                 id="email"
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="text-black"
+                className="text-black px-3 py-2 border rounded-md w-full h-8"
               />
             </div>
-            <br />
-            <div className="flex justify-center">
+            <div className="mb-6">
               <button
                 className="bg-white rounded-full px-4 py-2 shadow-md text-black"
                 type="submit"

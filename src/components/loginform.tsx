@@ -38,7 +38,7 @@ export default function LoginForm() {
               name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="text-black"
+              className=" bg-slate-500 text-white"
             />
           </div>
           <br />
@@ -50,7 +50,7 @@ export default function LoginForm() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="text-black"
+              className="bg-slate-500 text-white"
             />
           </div>
           <br />
