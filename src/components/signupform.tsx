@@ -35,20 +35,31 @@ export default function SignUpForm() {
       // Check if the first POST request was successful
       if (response.ok) {
         // If successful, send another POST request to now make the user account
-        const secondResponse = await fetch(`${url}/another/endpoint`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // Add parameters for the second request here
-          }),
-        });
+        const res = await fetch(`${url}/customer/id/${email}`);
 
         // Check if the second POST request was successful
-        if (secondResponse.ok) {
-          alert("Account successfully created, rerouting to login page");
-          router.push("/login");
+        if (res.ok) {
+          const data = await res.json();
+          //console.log(data[0].user_id);
+          const id = data[0].user_id;
+
+          const new_user = await fetch(`${url}/users/create`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user_id: id,
+              user_name: username,
+              password: password,
+              isadmin: false,
+            }),
+          });
+
+          if (new_user.ok) {
+            router.push(`/login`);
+            return "User successfully created!";
+          }
         } else {
           throw new Error("Second request failed");
         }
