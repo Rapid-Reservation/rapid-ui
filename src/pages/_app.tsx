@@ -2,13 +2,22 @@ import { AuthProvider } from "@/context/authContext";
 import { CartProvider } from "@/context/cartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import backgroundImage from "../../public/stock-background.jpg";
+
 import Header from "@/components/header";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+
   return (
     <>
       <div
@@ -25,15 +34,21 @@ function MyApp({ Component, pageProps }: AppProps) {
           zIndex: -1,
         }}
       />
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <CartProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </CartProvider>
-        </QueryClientProvider>
-      </AuthProvider>
+
+      <div style={{ position: "relative" }}>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <CartProvider>
+              <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
+                <Header />
+                <Component {...pageProps} />
+              </ThemeProvider>
+            </CartProvider>
+          </QueryClientProvider>
+        </AuthProvider>
+      </div>
+
     </>
   );
 }
