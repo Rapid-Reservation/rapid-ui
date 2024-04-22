@@ -1,6 +1,8 @@
 import React from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import {
+    Alert,
     Button,
     Divider,
     Stack,
@@ -19,10 +21,14 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    AccordionActions
+    AccordionActions,
+    CircularProgress
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import RemoveIcon from '@mui/icons-material/Remove';
 import OrderItemList from "./orderItemList";
+import AccountFields from "./accountFields";
+import { useAuth } from "@/context/authContext";
 
 // can be replaced with a call to the database if an endpoint is implemented
 const foodData = [
@@ -57,60 +63,91 @@ const foodData = [
 ];
 
 export default function AccountDetails() {
-    // interface FoodItem {
-    //     food_id: number;
-    //     quantity: number;
-    //   }
-    const testData: FoodItem[] = [{ food_id: 1, quantity: 2 }, { food_id: 4, quantity: 2 }, { food_id: 5, quantity: 2 }]
-    const testData2: FoodItem[] = [{ food_id: 3, quantity: 2 }]
+    const { isAdmin, userId, userName, isLoggedIn, logout } = useAuth();
+    const { data, isLoading, isError, error } = useQuery("tables", fetchOrders);
+    // const [orders, setOrders] = useState<Order[]>([]);
+    const ordersURL = "https://rapid-api-rho.vercel.app/orders"; //live api
+
+    async function fetchOrders() {
+        try {
+            const res = await fetch(ordersURL);
+            if (!res.ok) {
+                throw new Error("Failed to fetch data");
+            }
+            return res.json();
+        } catch (error) {
+            // @ts-ignore
+            throw new Error("Error fetching order data:", error);
+        }
+    }
+
+    // Handle loading state
+    if (isLoading) return <Typography align="center" variant="h3"><CircularProgress /> Loading...</Typography>;
+
+    // Handle error state
+    if (isError) return (
+        <Alert severity="error">
+            There was an error loading account data:
+            <Divider sx={{ mb: 2, mt: 2 }}></Divider>
+            <code>{
+                // @ts-ignore
+                error.message
+            }</code>
+        </Alert>
+    );
+
+    const currentOrders: Order[] = data.filter((value: Order) => { return (value.customer_id == userId) && (value.table_number != null) })
+    const pastOrders: Order[] = data.filter((value: Order) => { return (value.customer_id == userId) && (value.table_number == null) })
 
     return (
         <>
             <Container>
                 <Typography variant="h3">Account Details</Typography>
                 <Divider>Account Information</Divider>
-                <Typography>Usernname: XXXXXXXX</Typography>
-                <Typography>Field2: XXXXXXXX</Typography>
+                <AccountFields />
                 <Divider>Current Orders</Divider>
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        Order 1 ({testData.length} {testData.length > 1 ? 'items' : 'item'})
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Divider textAlign="left">Table 1</Divider>
-                        <OrderItemList foodItems={testData} foodData={foodData} />
-                    </AccordionDetails>
-                </Accordion>
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2-content"
-                        id="panel2-header"
-                    >
-                        Order 2 ({testData2.length} {testData2.length > 1 ? 'items' : 'item'})
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Divider textAlign="left">Table 2</Divider>
-                        <OrderItemList foodItems={testData2} foodData={foodData} />
-                    </AccordionDetails>
-                </Accordion>
+                {
+                    currentOrders.map((order: Order) => {
+                        return (
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    <Typography>Order {order.order_id}</Typography>
+                                    <Typography sx={{ right: 0, position: 'absolute', mr: 5 }}>
+                                        ({order.items.length}) {order.items.length > 1 ? 'items' : 'item'}
+                                    </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Divider textAlign="left">Table {order.table_number}</Divider>
+                                    <OrderItemList foodItems={order.items} foodData={foodData} />
+                                </AccordionDetails>
+                            </Accordion>
+                        );
+                    })
+                }
                 <Divider>Past Orders</Divider>
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2-content"
-                        id="panel2-header"
-                    >
-                        Order 2 ({testData2.length} {testData2.length > 1 ? 'items' : 'item'})
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <OrderItemList foodItems={testData2} foodData={foodData} />
-                    </AccordionDetails>
-                </Accordion>
+                {
+                    pastOrders.map((order: Order) => {
+                        return (
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    <Typography>Order {order.order_id}</Typography>
+                                    <Typography sx={{ right: 0, position: 'absolute', transform: 'translate(-100%)' }}>({order.items.length}) {order.items.length > 1 ? 'items' : 'item'}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <OrderItemList foodItems={order.items} foodData={foodData} />
+                                </AccordionDetails>
+                            </Accordion>
+                        );
+                    }) || <Typography>No Current Orders!</Typography>
+                }
             </Container>
         </>
     );
