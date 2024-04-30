@@ -83,9 +83,7 @@ export default function Header() {
                 >
                   Logout
                 </div>
-                <div>
-                  <CartModal />
-                </div>
+
                 <div>
                   <Link
                     href="https://github.com/Rapid-Reservation"

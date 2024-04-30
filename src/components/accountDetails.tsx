@@ -67,6 +67,7 @@ export default function AccountDetails() {
   const { data, isLoading, isError, error } = useQuery("tables", fetchOrders);
   // const [orders, setOrders] = useState<Order[]>([]);
   const ordersURL = "https://rapid-api-rho.vercel.app/orders"; //live api
+  //const ordersURL = "http://127.0.0.1:8000/orders"; //live api
 
   async function fetchOrders() {
     try {
@@ -82,7 +83,7 @@ export default function AccountDetails() {
   }
 
   // Handle loading state
-  if (isLoading)
+  if (isLoading || !data)
     return (
       <Typography align="center" variant="h3">
         <CircularProgress /> Loading...
