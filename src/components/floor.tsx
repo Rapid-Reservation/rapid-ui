@@ -6,7 +6,7 @@ export default function Floor() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   //const url = "http://127.0.0.1:8000/table"; //localhost
-  const url = "https://rapid-api-rho.vercel.app"; //live
+  const url = "https://rapid-api-rho.vercel.app/table"; //live
 
   // Use useEffect hook to fetch data
   useEffect(() => {
