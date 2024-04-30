@@ -10,7 +10,7 @@ export default function Floor() {
 
   // Use useEffect hook to fetch data
   useEffect(() => {
-    const url = "http://127.0.0.1:8000/table";
+    //const url = "http://127.0.0.1:8000/table";
     const fetchData = async () => {
       try {
         const res = await fetch(url);

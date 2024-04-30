@@ -7,15 +7,12 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     try {
       await login(username, password);
-      // Redirect user to "/reserve" after successful login
-      router.push("/reserve");
     } catch (error) {
       // @ts-ignore
       setErrorMessage(error.message);
