@@ -58,6 +58,12 @@ export default function Header() {
                   >
                     Menu
                   </Link>
+                  <Link
+                    href="/account"
+                    className="mr-4 mt-4 block text-lg text-white hover:text-white lg:mt-0 lg:inline-block"
+                  >
+                    Account
+                  </Link>
                 </>
               ) : (
                 <Link
@@ -77,9 +83,7 @@ export default function Header() {
                 >
                   Logout
                 </div>
-                <div>
-                  <CartModal />
-                </div>
+
                 <div>
                   <Link
                     href="https://github.com/Rapid-Reservation"

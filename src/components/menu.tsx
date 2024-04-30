@@ -21,6 +21,7 @@ import SendIcon from "@mui/icons-material/Send";
 import AddIcon from "@mui/icons-material/Add";
 import CircleIcon from "@mui/icons-material/Circle";
 
+// can be replaced with a call to the database if an endpoint is implemented
 const foodData = [
   {
     name: "Pizza",

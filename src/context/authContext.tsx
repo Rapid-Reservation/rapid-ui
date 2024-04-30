@@ -1,3 +1,4 @@
+import router, { useRouter } from "next/router";
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext<any>(null);
@@ -7,14 +8,45 @@ export const AuthProvider = ({ children }: any) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUsername] = useState("");
   const [userId, setUserId] = useState("");
+  const router = useRouter();
   const url = "https://rapid-api-rho.vercel.app"; //live version
   //const url = "http://127.0.0.1:8000"; //localhost
 
+  const fetchUserDataUsingToken = async (token: string) => {
+    try {
+      const response = await fetch(`${url}/user/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      return response;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
-    // Check if user is already logged in on initial load
     const token = localStorage.getItem("accessToken");
     if (token) {
-      setIsLoggedIn(true);
+      const fetchData = async () => {
+        try {
+          const response = await fetchUserDataUsingToken(token);
+          const data = await response.json();
+          setIsAdmin(data.isadmin);
+          setUserId(data.user_id);
+          setUsername(data.user_name);
+          setIsLoggedIn(true);
+          //router.push("/reserve");
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      };
+      fetchData();
     }
   }, []);
 
@@ -36,7 +68,7 @@ export const AuthProvider = ({ children }: any) => {
       setUserId(data.user.user_id);
       setUsername(data.user.user_name);
       setIsLoggedIn(true);
-      console.log(isAdmin, userId, userName);
+      router.push("/reserve");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -48,7 +80,9 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, login, logout, isAdmin, userId, userName }}
+    >
       {children}
     </AuthContext.Provider>
   );
