@@ -12,12 +12,25 @@ export default function SignUpForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const url = "https://rapid-api-rho.vercel.app"; //live version
-  // const url = "http://127.0.0.1:8000"; // localhost
+  //const url = "http://127.0.0.1:8000"; // localhost
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     try {
+      // Check if the username already exists
+      const usernameCheckResponse = await fetch(
+        `${url}/user/username/${username}`
+      );
+      const usernameCheckData = await usernameCheckResponse.json();
+
+      if (usernameCheckData.exists) {
+        setErrorMessage(
+          "Username already exists. Please choose a different username."
+        );
+        return;
+      }
+
       // Send the first POST request to create the customer
       const response = await fetch(`${url}/customer/set`, {
         method: "POST",
@@ -40,7 +53,6 @@ export default function SignUpForm() {
         // Check if the second POST request was successful
         if (res.ok) {
           const data = await res.json();
-          //console.log(data[0].user_id);
           const id = data[0].user_id;
 
           const new_user = await fetch(`${url}/users/create`, {

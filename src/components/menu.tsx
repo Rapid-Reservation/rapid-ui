@@ -20,6 +20,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import AddIcon from "@mui/icons-material/Add";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useAuth } from "@/context/authContext";
 
 // can be replaced with a call to the database if an endpoint is implemented
 const foodData = [
@@ -100,6 +101,7 @@ export default function Menu({
 }) {
   const [cartItems, setCartItems] = useState<FoodItem[]>([]);
   const [tabvalue, settabValue] = useState(0);
+  const { isAdmin, userId, userName, isLoggedIn, logout } = useAuth();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     settabValue(newValue);
@@ -141,7 +143,7 @@ export default function Menu({
     try {
       // Format data to POST
       const orderData: CartData = {
-        customer_id: 1, // currently set to 1 for admin as the id
+        customer_id: userId, // currently set to 1 for admin as the id
         table_number: tableID,
         items: cartItems,
       };
