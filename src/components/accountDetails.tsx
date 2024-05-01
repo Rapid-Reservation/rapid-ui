@@ -118,7 +118,7 @@ export default function AccountDetails() {
         <Typography variant="h3">Account Details</Typography>
         <Divider>Account Information</Divider>
         <AccountFields />
-        <Divider>Current Orders</Divider>
+        <Divider>Past Orders</Divider>
         {currentOrders.map((order: Order) => {
           return (
             <Accordion key={order.order_id}>
@@ -140,7 +140,7 @@ export default function AccountDetails() {
             </Accordion>
           );
         })}
-        <Divider>Past Orders</Divider>
+        {/* <Divider>Past Orders</Divider>
         {pastOrders.map((order: Order) => {
           return (
             <Accordion key={order.order_id}>
@@ -166,7 +166,7 @@ export default function AccountDetails() {
               </AccordionDetails>
             </Accordion>
           );
-        }) || <Typography>No Current Orders!</Typography>}
+        }) || <Typography>No Current Orders!</Typography>} */}
       </Container>
     </>
   );

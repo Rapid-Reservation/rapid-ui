@@ -14,8 +14,15 @@ export default function LoginForm() {
     try {
       await login(username, password);
     } catch (error) {
-      // @ts-ignore
-      setErrorMessage(error.message);
+      //@ts-ignore
+      if (error.response) {
+        // Unauthorized - Invalid username/password
+        setErrorMessage("Invalid username or password");
+      } else {
+        // Other errors
+        // @ts-ignore
+        setErrorMessage(error.message);
+      }
     }
   };
 
